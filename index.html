@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mario Prasetio — Pixel Kingdom Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Mario-themed styles */
+    :root {
+      --mario-red: #E4002B;
+      --mario-blue: #0072BB;
+      --mario-green: #00B140;
+      --mario-yellow: #FFC700;
+      --mario-brown: #79430B;
+      --mario-coin: #FFD700;
+      --mario-sky: #6B8EAA;
+      --mario-cloud: #FFFFFF;
+      --mario-pipe: #008000;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--mario-sky); /* Default sky blue */
+      font-family: 'VT323', monospace; /* Pixel font for general text */
+      color: #333; /* Dark text for contrast against bright backgrounds */
+      overflow-x: hidden; /* Prevent horizontal scroll from elements like clouds */
+    }
+
+    h1, h2, h3, .nav-link, .btn-mario {
+      font-family: 'Press Start 2P', cursive; /* Retro arcade font for headings/buttons */
+      color: #FFF; /* White for headings against dark backgrounds */
+      text-shadow: 2px 2px 0px var(--mario-red); /* Mario-style text shadow */
+    }
+
+    /* Navbar */
+    nav {
+      background-color: var(--mario-brown); /* Ground color */
+      border-bottom: 4px solid #4A2B09; /* Darker ground border */
+    }
+    nav .nav-link {
+      color: #FFF;
+      text-shadow: 1px 1px 0px #000;
+      transition: color 0.2s;
+    }
+    nav .nav-link:hover {
+      color: var(--mario-coin);
+    }
+    nav .brand-name {
+        color: var(--mario-red);
+        text-shadow: 2px 2px 0px #000;
+    }
+    nav .brand-name span {
+        color: white;
+        text-shadow: 2px 2px 0px #000;
+    }
+
+    /* Hero Section */
+    .hero-bg {
+      background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/bg-hero-mariopr.png'); /* Mario background image */
+      background-size: cover;
+      background-position: center bottom;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 4px solid var(--mario-brown); /* Block border */
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4); /* Block shadow */
+    }
+    .hero-title {
+      color: white;
+      text-shadow: 4px 4px 0px var(--mario-red);
+      font-size: 3.5rem; /* Larger font */
+    }
+    .hero-title span {
+      color: var(--mario-coin);
+    }
+
+    /* Typing effect */
+    .typing::after {
+      content: "_"; /* Pixelated cursor */
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Mario Button */
+    .btn-mario {
+      background-color: var(--mario-red);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      border-bottom: 4px solid #A00000; /* Darker bottom for 3D effect */
+      transition: all 0.1s ease-in-out;
+      box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+      font-size: 1rem;
+    }
+    .btn-mario:hover {
+      transform: translateY(2px); /* Simulate button press */
+      border-bottom-width: 2px;
+      box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+    }
+    .btn-mario-green {
+      background-color: var(--mario-pipe);
+      border-bottom-color: #005000;
+    }
+    .btn-mario-green:hover {
+      background-color: #00A000;
+    }
+    .btn-mario-dark {
+      background-color: var(--mario-brown);
+      border-bottom-color: #4A2B09;
+    }
+    .btn-mario-dark:hover {
+      background-color: #905010;
+    }
+
+    /* Coins animation */
+    .coin {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/coin.gif'); /* A simple coin GIF */
+        background-size: contain;
+        background-repeat: no-repeat;
+        animation: floatCoin 3s infinite ease-in-out;
+        opacity: 0;
+        z-index: 5;
+    }
+    .coin:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; opacity: 1;}
+    .coin:nth-child(2) { top: 30%; left: 80%; animation-delay: 1s; opacity: 1;}
+    .coin:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; opacity: 1;}
+
+    @keyframes floatCoin {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
+    /* About Me Section */
+    .about-section {
+      background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/bg-underground.png'); /* Underground background */
+      background-size: cover;
+      background-position: center top;
+      color: #EEE; /* Lighter text for dark background */
+      text-shadow: 1px 1px 0px #000;
+    }
+    .profile-photo {
+      border: 6px solid var(--mario-red);
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.5);
+    }
+    .about-card {
+      background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+      border: 4px solid var(--mario-brown);
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Skills Section */
+    .skills-section {
+      background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/bg-level.png'); /* Classic level background */
+      background-size: cover;
+      background-position: center bottom;
+      color: #333;
+      text-shadow: none; /* Remove text shadow for better readability on lighter background */
+    }
+    .skill-card {
+      background-color: var(--mario-yellow); /* Question block color */
+      border: 4px solid var(--mario-brown);
+      box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+      color: #333; /* Dark text for readability */
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      transition: transform 0.1s ease-in-out, background-color 0.2s;
+    }
+    .skill-card:hover {
+      transform: translateY(-5px) scale(1.02); /* Pop up like a hit block */
+      background-color: var(--mario-coin); /* Flash yellow */
+    }
+    /* Specific skill card colors for different categories */
+    .skill-lang { background-color: #FFC700; border-color: #CC9900; color: #333;} /* Yellow blocks */
+    .skill-db { background-color: #00B140; border-color: #008000; color: #FFF;} /* Green blocks */
+    .skill-cloud { background-color: #0072BB; border-color: #004F80; color: #FFF;} /* Blue blocks */
+    .skill-media { background-color: #E4002B; border-color: #A00000; color: #FFF;} /* Red blocks */
+    .skill-mobile { background-color: #9C27B0; border-color: #6A1B9A; color: #FFF;} /* Purple blocks */
+    .skill-data { background-color: #FF8C00; border-color: #CC7000; color: #FFF;} /* Orange blocks */
+    .skill-test { background-color: #607D8B; border-color: #455A64; color: #FFF;} /* Grey blocks */
+
+    /* Projects Section */
+    .projects-section {
+      background-color: #4A2B09; /* Dark brown for a ground effect */
+      background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/bg-grass.png'); /* Grassy texture */
+      background-size: 100px 100px; /* Repeat grass texture */
+      color: #FFF;
+      text-shadow: 1px 1px 0px #000;
+      border-top: 8px solid #331C04; /* Ground top border */
+    }
+    .project-card {
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark card */
+      border: 4px solid var(--mario-brown);
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4);
+      transition: transform 0.1s ease-in-out;
+    }
+    .project-card:hover {
+      transform: translateY(-8px); /* Pop up like a floating platform */
+      box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.5);
+    }
+    .project-card h3 {
+      color: var(--mario-coin);
+      text-shadow: 2px 2px 0px #000;
+    }
+    .project-tag {
+      font-family: 'VT323', monospace;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      background-color: rgba(255,255,255,0.1);
+      color: #EEE;
+    }
+    .project-link {
+        color: var(--mario-red);
+        text-shadow: 1px 1px 0px #000;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.75rem;
+    }
+    .project-link:hover {
+        color: var(--mario-coin);
+    }
+
+
+    /* Contact Section */
+    .contact-section {
+      background-image: url('https://raw.githubusercontent.com/Mario-Prasetio/personal-portfolio/main/public/images/bg-castle.png'); /* Castle background */
+      background-size: cover;
+      background-position: center bottom;
+      color: #FFF;
+      text-shadow: 2px 2px 0px #000;
+    }
+    .contact-form {
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 4px solid var(--mario-brown);
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4);
+    }
+    .contact-form input, .contact-form textarea {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 2px solid var(--mario-brown);
+      color: #333;
+      font-family: 'VT323', monospace;
+    }
+    .contact-form input::placeholder, .contact-form textarea::placeholder {
+      color: #666;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+        border-color: var(--mario-red);
+        outline: none;
+        box-shadow: 0 0 0 2px var(--mario-red);
+    }
+
+    .social-icon {
+        color: var(--mario-red);
+        text-shadow: 1px 1px 0px #000;
+        transition: transform 0.2s;
+    }
+    .social-icon:hover {
+        color: var(--mario-coin);
+        transform: translateY(-5px);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--mario-brown);
+      border-top: 4px solid #4A2B09;
+      color: #EEE;
+      text-shadow: 1px 1px 0px #000;
+      font-family: 'VT323', monospace;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .hero-content {
+        padding: 1.5rem;
+      }
+      h2 {
+        font-size: 2.5rem;
+      }
+      .skill-card {
+        font-size: 0.7rem;
+      }
+    }
+
+  </style>
+</head>
+<body class="selection:bg-mario-red selection:text-white">
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 py-3">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <a href="#home" class="text-3xl font-extrabold brand-name">Mario<span class="text-white"> Prasetio</span></a>
+      <div class="space-x-8 hidden md:flex">
+        <a href="#home" class="nav-link text-lg">Home</a>
+        <a href="#about" class="nav-link text-lg">About</a>
+        <a href="#skills" class="nav-link text-lg">Skills</a>
+        <a href="#projects" class="nav-link text-lg">Projects</a>
+        <a href="#contact" class="nav-link text-lg">Contact</a>
+      </div>
+      <!-- Mobile menu button - would add a hamburger icon here -->
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center px-6 text-center overflow-hidden hero-bg">
+    <!-- Coins floating -->
+    <div class="coin"></div>
+    <div class="coin" style="top: 45%; left: 5%; animation-delay: 0.5s;"></div>
+    <div class="coin" style="top: 10%; right: 15%; animation-delay: 1.5s;"></div>
+    <div class="coin" style="top: 70%; left: 30%; animation-delay: 2.5s;"></div>
+
+    <div class="relative z-10 max-w-4xl mt-16 hero-content">
+      <h1 class="hero-title mb-6 leading-tight">
+        It's-a me, <span class="text-mario-coin">Mario Prasetio</span>!
+      </h1>
+      <p id="typing-text" class="text-2xl md:text-3xl mb-6 font-light text-white typing"></p>
+      <p class="text-xl text-white mb-10 max-w-2xl mx-auto">
+        Jumping through challenges to build awesome digital experiences, from pixel-perfect frontend to robust backend castles.
+      </p>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a href="#projects" class="btn-mario text-lg">Explore My Levels 🍄</a>
+        <a href="./Fullstack - Backend Heavy Engineer - Mario Prasetio [EN].pdf" target="_blank" class="btn-mario btn-mario-dark text-lg">My Power-Up List (EN)</a>
+        <a href="./Resume Mario Prasetio - August [NL].pdf" target="_blank" class="btn-mario btn-mario-dark text-lg">My Power-Up List (NL)</a>
+        <a href="https://wa.me/6283819459004?text=Hey%20Mario%2C%20I%20would%20like%20to%20know%20more%20about%20your%20skillset!" target="_blank" class="btn-mario btn-mario-green text-lg">Warp Pipe Contact 📬</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="about" class="py-20 px-6 about-section">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 p-8 about-card">
+      <div class="md:w-1/3">
+        <img src="./PP.png" alt="Mario Prasetio Pixel Art" class="rounded-full profile-photo w-64 h-64 object-cover mx-auto md:mx-0">
+      </div>
+      <div class="md:w-2/3 text-center md:text-left">
+        <h2 class="text-4xl font-bold mb-6 text-mario-red text-shadow-lg">Meet The Plumber "Coder"!</h2>
+        <p class="text-xl leading-relaxed mb-4 text-white">
+          I'm Mario Prasetio, a full-stack developer always ready for the next adventure! Just like finding hidden blocks, I love uncovering elegant solutions to complex coding puzzles. My quest involves building intuitive and efficient web applications, ensuring every pixel and line of code is as robust as Bowser's Castle walls.
+        </p>
+        <p class="text-xl leading-relaxed text-white">
+          My journey started with a fascination for how digital worlds are crafted, leading me to collect a diverse set of tech power-ups. When I'm not developing, I'm exploring new technologies, contributing to open-source projects, or perhaps even jumping on a few goombas in my spare time! Let's build some kingdoms together!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-20 px-6 skills-section">
+    <div class="max-w-7xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-12 text-mario-red text-shadow-lg">⚡ Power-Ups & Tools!</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+
+        <!-- Languages & Frameworks -->
+        <div class="skill-card p-5 rounded-xl skill-lang">
+          <p class="font-semibold">PHP (Laravel)</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-lang">
+          <p class="font-semibold">JavaScript / Vue / React</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-lang">
+          <p class="font-semibold">Node.js</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-lang">
+          <p class="font-semibold">Java (Spring Boot)</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-lang">
+          <p class="font-semibold">Python</p>
+        </div>
+
+        <!-- Databases -->
+        <div class="skill-card p-5 rounded-xl skill-db">
+          <p class="font-semibold">PostgreSQL</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-db">
+          <p class="font-semibold">MySQL</p>
+        </div>
+
+        <!-- Cloud & DevOps -->
+        <div class="skill-card p-5 rounded-xl skill-cloud">
+          <p class="font-semibold">Azure</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-cloud">
+          <p class="font-semibold">AWS Services</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-cloud">
+          <p class="font-semibold">Docker</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-cloud">
+          <p class="font-semibold">CI/CD</p>
+        </div>
+
+        <!-- Media & Automation -->
+        <div class="skill-card p-5 rounded-xl skill-media">
+          <p class="font-semibold">FFMPEG</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-media">
+          <p class="font-semibold">Web Audio</p>
+        </div>
+
+        <!-- Mobile -->
+        <div class="skill-card p-5 rounded-xl skill-mobile">
+          <p class="font-semibold">Cordova</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-mobile">
+          <p class="font-semibold">Android</p>
+        </div>
+
+        <!-- Data & Maps -->
+        <div class="skill-card p-5 rounded-xl skill-data">
+          <p class="font-semibold">Power BI</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-data">
+          <p class="font-semibold">MapBox</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-data">
+          <p class="font-semibold">OpenStreetMap</p>
+        </div>
+        
+        <!-- Testing & Automation -->
+        <div class="skill-card p-5 rounded-xl skill-test">
+          <p class="font-semibold">Playwright</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-test">
+          <p class="font-semibold">Katalon</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-test">
+          <p class="font-semibold">Macro Scripting</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-test">
+          <p class="font-semibold">SharePoint / Office365</p>
+        </div>
+        <div class="skill-card p-5 rounded-xl skill-test">
+          <p class="font-semibold">Power Platform</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 px-6 projects-section">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl font-bold mb-12 text-center text-mario-coin text-shadow-lg">🛠️ My Kingdom Levels!</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+        <!-- Project Card 1: Point of Sale + Fleet Management -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🛒 Point of Sale + Fleet Management</h3>
+          <p class="text-white mb-5">Fully digitalized cashier and courier apps, replacing manual processes. Real-time tracking and Proof of Delivery (POD) enhanced logistics transparency and improved financial visibility.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">Node.js</span>
+            <span class="project-tag">Cordova</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">Azure</span>
+            <span class="project-tag">GPS Tracking</span>
+            <span class="project-tag">Open Street Maps</span>
+            <span class="project-tag">MapBox</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 2: TravelTales -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🎧 TravelTales [Beta]</h3>
+          <p class="text-white mb-5">Voiceover slideshow platform allowing users to narrate their travel photos. Interactive breakpoints enable replays with synced audio for immersive storytelling.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">Cordova</span>
+            <span class="project-tag">FFMPEG</span>
+            <span class="project-tag">AWS S3</span>
+            <span class="project-tag">AWS Lambda</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 3: Online Shop & Social Media Tool -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🛍 Online Shop & Social Media Tool</h3>
+          <p class="text-white mb-5">Helped creators track user flow from YouTube videos to checkout, with automated price updates and review tracking via APIs.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">API Integration</span>
+            <span class="project-tag">Web Scraping</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 4: Streaming Monetization Platform -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🎥 Streaming Monetization Platform</h3>
+          <p class="text-white mb-5">Patreon-style platform for live streamers with real-time donor interactions, supporting QR, card, and bank payments.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">WebSockets</span>
+            <span class="project-tag">Payment Gateway</span>
+            <span class="project-tag">AWS</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 5: Bank Cash Collection App -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">💰 Bank Cash Collection App</h3>
+          <p class="text-white mb-5">Secured mobile app for managing cash pickups and tracking routes with automated notifications and reporting.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">PowerApps</span>
+            <span class="project-tag">SharePoint</span>
+            <span class="project-tag">API</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 6: Cabin Crew Transport Management -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">✈️ Cabin Crew Transport Management</h3>
+          <p class="text-white mb-5">Uber-style scheduling system for airline crew with real-time route tracking and cost automation.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">Node.js</span>
+            <span class="project-tag">WebSocket</span>
+            <span class="project-tag">MapBox</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 7: PetStory -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🐾 PetStory</h3>
+          <p class="text-white mb-5">A social media app for pet lovers featuring matchmaking, messaging, and a collaborative pet wiki.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">jQuery</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">Cordova</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 8: Find My Egg -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🍳 Find My Egg</h3>
+          <p class="text-white mb-5">Food delivery app supporting local producers by digitizing sales of eggs and dairy products.</p>
+          <div class="flex flex-wrap gap-2 text-sm mb-5">
+            <span class="project-tag">Android Cordova</span>
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">Google Maps API</span>
+          </div>
+          <div class="flex justify-start gap-4">
+            
+          </div>
+        </div>
+
+        <!-- Project Card 9: Adventurigo -->
+        <div class="project-card rounded-2xl p-7">
+          <h3 class="text-2xl font-semibold mb-3">🧭 Adventurigo</h3>
+          <p class="text-white mb-5">Co-Founder · Jan 2018 – Dec 2019. Built a travel app for hikers and museum visitors in Indonesia. Features included SIMAKSI (permit) preparation, open trip coordination with guides, and regional trail planning—starting from TNGP & Gunung Bunder.</p>
+          <ul class="list-disc list-inside text-white mb-5">
+            <li>Launched MVP with Gunung Bunder as starting region</li>
+            <li>Connected hikers with trip leaders via open trip system</li>
+            <li>Top 10 Startup – Ministry of Tourism (2019)</li>
+          </ul>
+          <div class="flex flex-wrap gap-2 text-sm">
+            <span class="project-tag">Travel</span>
+            <span class="project-tag">Hiking</span>
+            <span class="project-tag">SIMAKSI</span>
+          </div>
+          <div class="flex justify-start gap-4 mt-5">
+            <a href="#" target="_blank" class="project-link">Explore the World &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 px-6 contact-section">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8 text-mario-red text-shadow-lg">📬 Castle of Communication!</h2>
+      <p class="text-xl text-white mb-10">
+        Reached the end of the level? Send a message to the Princess (that's me!) to collaborate, share ideas, or just say "It's-a me!"
+      </p>
+      
+      <!-- <form class="p-8 rounded-2xl contact-form space-y-6">
+        <div>
+          <label for="name" class="sr-only">Name</label>
+          <input type="text" id="name" placeholder="Your Name" class="w-full p-4 rounded-lg focus:outline-none">
+        </div>
+        <div>
+          <label for="email" class="sr-only">Email</label>
+          <input type="email" id="email" placeholder="Your Email" class="w-full p-4 rounded-lg focus:outline-none">
+        </div>
+        <div>
+          <label for="message" class="sr-only">Message</label>
+          <textarea id="message" rows="6" placeholder="Your Message" class="w-full p-4 rounded-lg focus:outline-none"></textarea>
+        </div>
+        <button type="submit" class="btn-mario text-lg w-full">
+          Send Mushroom Mail! 🍄
+        </button>
+      </form> -->
+
+      <div class="flex justify-center gap-8 mt-12">
+        <a href="https://linkedin.com/in/marioprasetio" target="_blank" class="text-5xl social-icon" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+            <!-- <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542V13.394h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025H8.5V6.169h2.401V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025H8.5V6.169h2.401V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025H8.5V6.169h2.401V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h</path> -->
+          </svg>
+        </a>
+        <a href="https://github.com/Mario-Prasetio" target="_blank" class="text-5xl social-icon" aria-label="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.43-.41-2.43-.8-.35-.7-.8-.94-.8-.94-.6-.5-.1-.4-.1-.4.47.03.75.47.75.47.43.75 1.12.53 1.39.4.07-.4.28-.7.54-.8.46-.05.9-.12 1.36-.01.07-.12.2-.26.34-.41-.3-.07-.6-.11-.92-.11-1.66 0-3 1.12-3 2.5 0 .54.19 1.05.52 1.42-.05.13-.2.52-.08.82 0 0 .4-.13.82-.47.34.09.7.14 1.07.14.37 0 .73-.05 1.07-.14.42.34.82.47.82.47.12-.3.0-.69-.08-.82.33-.37.52-.88.52-1.42 0-1.38-1.34-2.5-3-2.5z"/>
+          </svg>
+        </a>
+        <a href="mailto:mario.prasetio.nugroho@gmail.com" class="text-5xl social-icon" aria-label="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.146.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83L0 13.256V14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.748L9.239 8.83l-1.218.733-1.218-.733zM16 4.697v7.104l-5.803-3.558L16 4.697z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6">
+    © 2025 Mario Prasetio · Built with ❤️ and the spirit of the Mushroom Kingdom!
+  </footer>
+
+    <audio id="mario-theme-audio" loop autoplay style="display:none;">
+    <source src="./Super Mario Bros. medley.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Typing Effect Script -->
+  <script>
+    // Optional: You might want to control the audio playback (e.g., mute button)
+    // For now, it will autoplay. Some browsers might have restrictions on autoplay,
+    // especially if the user hasn't interacted with the page before.
+    document.addEventListener('DOMContentLoaded', () => {
+        const audio = document.getElementById('mario-theme-audio');
+        // Attempt to play audio
+        audio.play().catch(error => {
+            // Autoplay was prevented. User might need to interact first.
+            console.log("Audio autoplay prevented:", error);
+            // You could add a visible play button here if autoplay fails
+        });
+    });
+
+    // Your existing typing effect script would be here (if not already)
+    const roles = ["Full-Stack Developer", "AI & Automation Engineer", "Creative Problem Solver"];
+    let i = 0, j = 0, currentRole = "", isDeleting = false;
+    const typingElement = document.getElementById("typing-text");
+
+    function type() {
+      if (isDeleting) {
+        currentRole = roles[i].substring(0, j--);
+      } else {
+        currentRole = roles[i].substring(0, j++);
+      }
+      typingElement.textContent = currentRole;
+
+      let typeSpeed = isDeleting ? 50 : 120;
+      if (j === roles[i].length && !isDeleting) {
+          typeSpeed = 1500; /* Pause at end of word */
+      } else if (j === 0 && isDeleting) {
+          isDeleting = false;
+          i = (i + 1) % roles.length;
+          typeSpeed = 500; /* Pause before typing new word */
+      }
+
+      setTimeout(type, typeSpeed);
+    }
+    type();
+  </script>
+
+</body>
+</html>
